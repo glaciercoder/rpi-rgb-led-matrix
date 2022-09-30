@@ -25,3 +25,14 @@ This project is targeted at mimicking 3D object on three vertical LED planes.
 
 
 Today I finished the basic frame for boundary construction and collision detection
+
+# Day2
+
+For multiple boundary detection, the ray shouldn't pierce the first boundary met, so it is necessary to return the distance of intersection point to choose the first collision point.
+
+The current algorithm transverses the rays and boundaries, which seems to be of great complexity.
+
+Add rectangle boundaries, this should be the body of the game map.
+
+Though it will be interesting to add polygons or circle into the boundary type, it is more urgent to finish the 3D rendering, so my next step will be 3D rendering of the 2D results
+
