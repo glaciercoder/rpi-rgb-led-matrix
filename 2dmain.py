@@ -1,13 +1,7 @@
-from curses import KEY_DOWN, KEY_LEFT, KEY_RIGHT, KEY_UP
-from lib2to3 import pygram
 import sys
 import pygame as pg
-from ray import Ray
 from boundary import *
 from settings import *
-from geometry import Point
-from geometry import Line
-from geometry import Rectangle
 from light_source import LightSource
 from ticker import Ticker
 
@@ -19,14 +13,14 @@ ui_settings = UI_Settings()
 ls_settings = Lightsouce_Settings()
 
 # Load Map
-map = BoundaryMaker('./maps/box_pic.svg')
+map = BoundaryMaker('./maps/map1.svg')
 boundaries = map.boundaries_gen()
 
 # Load Widgets
 ticker = Ticker(ui_settings.ticker_time)
 light_source = LightSource(ls_settings.init_pos, ls_settings.init_dir, ls_settings.apex)
 screen = pg.display.set_mode((ui_settings.width, ui_settings.height))
-pg.display.set_caption("Game")
+pg.display.set_caption("2D View")
 
 while True:
     keys = pg.key.get_pressed()
