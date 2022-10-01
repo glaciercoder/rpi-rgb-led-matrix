@@ -25,21 +25,15 @@ class LightSource:
         self.rays = []
         self.color = (0, 0, 255)
         self.radius = 5
-        self.gen_rays()
 
-    def gen_rays(self):
+    def gen_rays(self, boundaries):
         self.rays.clear()
         start_angle = - self.apex / 2
         for delta_angle in np.arange(0, self.apex, 3):
             dir_now = self.dir.rotate(math.radians(start_angle + delta_angle))
-            self.rays.append(Ray(self.pos, dir_now))
-
-    def show(self, surface, boundaries):
-        self.gen_rays()
-        pg.draw.circle(surface, self.color, (self.pos.x, self.pos.y), self.radius)
-        for ray in self.rays:
+            ray = Ray(self.pos, dir_now)
             minimum_dist = INFINITY
-            final_ray = None
+            final_ray = ray
             for boundary in boundaries:
                 intersections = ray.intersect(boundary)
                 if intersections:
@@ -47,8 +41,14 @@ class LightSource:
                         if intersection[1] < minimum_dist:
                             minimum_dist = intersection[1] 
                             final_ray = intersection[0]
-            if final_ray:
-                final_ray.show(surface)
+
+            self.rays.append(final_ray)
+
+    def show(self, surface, boundaries):
+        self.gen_rays(boundaries)
+        pg.draw.circle(surface, self.color, (self.pos.x, self.pos.y), self.radius)
+        for ray in self.rays:
+            ray.show(surface)
 
     def update(self, boundaries, keys):
         if keys[pg.K_LEFT]:
