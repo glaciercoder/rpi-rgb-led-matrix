@@ -1,5 +1,6 @@
 from cmath import sqrt
 from re import A, X
+import re
 import pygame as pg
 import math
 class Point():
@@ -36,6 +37,9 @@ class Line():
         self.b = b
         self.color = (245, 164, 96)
 
+    def __repr__(self) -> str:
+        return "({},{}) -- ({}, {})".format(self.a.x, self.a.y, self.b.x, self.b.y)
+
     def show(self, surface):
             pg.draw.lines(surface, self.color, False, [(self.a.x, self.a.y), (self.b.x, self.b.y)])
 
@@ -53,6 +57,9 @@ class Rectangle:
         self.l3 = Line(self.p3, self.p4)
         self.l4 = Line(self.p4, self.p1)
         self.color = (127, 255, 212)
+
+    def __repr__(self) -> str:
+        return "(x:{}, y:{}), (height={}, width={})".format(self.p1.x, self.p1.y, self.p3.x - self.p1.x, self.p3.y - self.p1.y)
 
     def show(self, surface):
         pg.draw.rect(surface, self.color, pg.Rect(self.p1.x, self.p1.y, self.p3.x - self.p1.x, self.p3.y - self.p1.y), 2)

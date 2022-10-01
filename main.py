@@ -3,7 +3,7 @@ from lib2to3 import pygram
 import sys
 import pygame as pg
 from ray import Ray
-from boundary import Boundary
+from boundary import *
 from settings import *
 from geometry import Point
 from geometry import Line
@@ -17,17 +17,17 @@ pg.init()
 # import settings
 ui_settings = UI_Settings()
 ls_settings = Lightsouce_Settings()
+
+# Load Map
+map = BoundaryMaker('./maps/box_pic.svg')
+boundaries = map.boundaries_gen()
+
+# Load Widgets
 ticker = Ticker(ui_settings.ticker_time)
+light_source = LightSource(ls_settings.init_pos, ls_settings.init_dir, ls_settings.apex)
 screen = pg.display.set_mode((ui_settings.width, ui_settings.height))
 pg.display.set_caption("Game")
 
-# Create Boundary
-a = Point(100, 100)
-b = Point(500, 100)
-boundary1 = Boundary(Line(a, b))
-boundary2 = Boundary(Rectangle(b, Point(700, 200)), type="Rectangle")
-boundaries = [boundary1, boundary2]
-light_source = LightSource(ls_settings.init_pos, ls_settings.init_dir, ls_settings.apex)
 while True:
     keys = pg.key.get_pressed()
     
@@ -39,8 +39,7 @@ while True:
             sys.exit()
             
     screen.fill(ui_settings.bg_color)
-    for boundary in boundaries:
-        boundary.show(screen)
     light_source.show(screen, boundaries)
+    map.show(screen)
     pg.display.flip()
     ticker.update()
