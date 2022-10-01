@@ -10,6 +10,10 @@ class Point():
     def normalize(self):
         norm = sqrt(self.x **2 + self.y ** 2) 
         return Point(self.x / norm.real, self.y / norm.real)
+    
+    # rotate couterclockwise, in rad
+    def rotate(self, theta):
+        return Point(math.cos(theta) * self.x - math.sin(theta) * self.y, math.sin(theta) * self.x + math.cos(theta) * self.y)
 
     def __mul__(self, ratio):
         return Point(self.x * ratio, self.y * ratio)
