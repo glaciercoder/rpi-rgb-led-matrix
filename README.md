@@ -87,6 +87,16 @@ Finally, our 3D reconstruction algorithm will be:
 
 
 
+# Day4
+
+Solve the problem of communicating between two pygame windows.
+
+By looking up to documents, it seems to be impossible to open two pygame winodws in one py file, so I set up two pygame processes communicating by UDP protocol.
+
+At first, I want to transfer one ray at a time. However, the program doesn't work properly. So I chose to send all distances with angle at the same time. 
+
+The communication works properly.
+
 
 
 

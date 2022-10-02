@@ -9,6 +9,7 @@ import numpy as np
 from geometry import Point, Rectangle
 from ray import Ray
 import math
+from frame import Frame
 
 class LightSource:
     """
@@ -23,13 +24,16 @@ class LightSource:
         self.target_point = Point(0, 0)
         self.apex = apex
         self.rays = []
+        self.angles = np.arange(0, self.apex, 3)
+        self.distances = []
         self.color = (0, 0, 255)
         self.radius = 5
 
     def gen_rays(self, boundaries):
+        self.distances.clear()
         self.rays.clear()
         start_angle = - self.apex / 2
-        for delta_angle in np.arange(0, self.apex, 3):
+        for delta_angle in self.angles:
             dir_now = self.dir.rotate(math.radians(start_angle + delta_angle))
             ray = Ray(self.pos, dir_now)
             minimum_dist = INFINITY
@@ -41,8 +45,8 @@ class LightSource:
                         if intersection[1] < minimum_dist:
                             minimum_dist = intersection[1] 
                             final_ray = intersection[0]
-
             self.rays.append(final_ray)
+            self.distances.append(minimum_dist)
 
     def show(self, surface, boundaries):
         self.gen_rays(boundaries)
@@ -73,3 +77,11 @@ class LightSource:
             self.pos = self.pos.move_to_new(self.target_point.x, self.target_point.y)
         self.target_point.x = 0
         self.target_point.y = 0
+
+    def send_data(self):
+        frame = Frame()
+        frame.update_data(self.angles, self.distances)
+        frame.send_data()
+
+
+

@@ -4,7 +4,7 @@ from boundary import *
 from settings import *
 from light_source import LightSource
 from ticker import Ticker
-
+import socket
 
 pg.init()
 
@@ -25,6 +25,7 @@ pg.display.set_caption("2D View")
 while True:
     keys = pg.key.get_pressed()
     
+    # Update position
     if ticker.check():
         light_source.update(boundaries, keys)
 
@@ -33,7 +34,9 @@ while True:
             sys.exit()
             
     screen.fill(ui_settings.bg_color)
+    # Update rays
     light_source.show(screen, boundaries)
+    light_source.send_data()
     map.show(screen)
     pg.display.flip()
     ticker.update()
