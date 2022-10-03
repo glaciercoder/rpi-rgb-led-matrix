@@ -1,12 +1,12 @@
 import sys
 from turtle import distance
+from numpy import gradient
 import pygame as pg
 from boundary import *
 from settings import *
 from light_source import LightSource
-from ticker import Ticker
 from frame import Frame
-
+from scene import Scene
 pg.init()
 
 # import settings
@@ -15,17 +15,16 @@ ls_settings = Lightsouce_Settings()
 
 
 # Load Widgets
-ticker = Ticker(ui_settings.ticker_time)
+clock = pg.time.Clock()
 screen = pg.display.set_mode((ui_settings.width, ui_settings.height))
 pg.display.set_caption("3D View")
-
+scene = Scene(screen)
 while True:
-    keys = pg.key.get_pressed()
-    angles, distances = Frame().recv_data()
     for event in pg.event.get():
         if event.type == pg.QUIT:
             sys.exit()
-            
-    screen.fill(ui_settings.bg_color)
+    scene.background_gen((255, 255, 255), (0, 0, 0), 100, pg.Rect(100, 100, 500, 500))
+    angles, distances = Frame().recv_data()
     pg.display.flip()
-    ticker.update()
+
+    clock.tick_busy_loop(60)
