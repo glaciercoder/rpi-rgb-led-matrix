@@ -24,7 +24,7 @@ class LightSource:
         self.target_point = Point(0, 0)
         self.apex = apex
         self.rays = []
-        self.angles = np.arange(0, self.apex, 3)
+        self.angles = np.arange(0, self.apex+1, 1)
         self.distances = []
         self.color = (0, 0, 255)
         self.radius = 5

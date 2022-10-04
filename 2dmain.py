@@ -21,7 +21,6 @@ ticker = Ticker(ui_settings.ticker_time)
 light_source = LightSource(ls_settings.init_pos, ls_settings.init_dir, ls_settings.apex)
 screen = pg.display.set_mode((ui_settings.width, ui_settings.height))
 pg.display.set_caption("2D View")
-
 while True:
     keys = pg.key.get_pressed()
     
