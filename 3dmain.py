@@ -1,6 +1,5 @@
 import sys
 from turtle import distance
-from numpy import gradient
 import pygame as pg
 from boundary import *
 from settings import *
@@ -18,13 +17,14 @@ ls_settings = Lightsouce_Settings()
 clock = pg.time.Clock()
 screen = pg.display.set_mode((ui_settings.width, ui_settings.height))
 pg.display.set_caption("3D View")
-scene = Scene(screen)
+background = pg.image.load('./maps/background.png').convert()
+screen.blit(background, (0, 0))
 while True:
     for event in pg.event.get():
         if event.type == pg.QUIT:
             sys.exit()
-    scene.background_gen((255, 255, 255), (0, 0, 0), 100, pg.Rect(100, 100, 500, 500))
     angles, distances = Frame().recv_data()
+    
     pg.display.flip()
 
     clock.tick_busy_loop(60)
