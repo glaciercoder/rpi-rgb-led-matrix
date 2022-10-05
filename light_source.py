@@ -3,6 +3,7 @@ from hashlib import new
 from json.encoder import INFINITY
 from lib2to3 import pygram
 from lib2to3.pgen2 import pgen
+from turtle import radians
 import pygame as pg
 from boundary import Boundary
 import numpy as np
@@ -22,6 +23,7 @@ class LightSource:
         self.dir = settings.init_dir
         self.target_point = Point(0, 0)
         self.apex = settings.apex
+        self.speed = settings.speed
         self.rays = []
         self.angles = np.arange(0, self.apex+settings.delta_angle, settings.delta_angle)
         self.distances = []
@@ -53,19 +55,24 @@ class LightSource:
         for ray in self.rays:
             ray.show(surface)
 
-    def update(self, boundaries, keys):
+    def _change_dir(self, keys):
         if keys[pg.K_LEFT]:
-            self.dir = Point(-1, 0)
-            self.target_point = Point(-5, 0)
+            self.dir = self.dir.rotate(math.radians(-5))
         elif keys[pg.K_RIGHT]:
-            self.dir = Point(1, 0)
-            self.target_point = Point(5, 0)
-        elif keys[pg.K_UP]:
-            self.dir = Point(0, -1)
-            self.target_point = Point(0, -5)
+            self.dir = self.dir.rotate(math.radians(5))
+
+    def _move(self, keys):
+        speed = 0
+        if keys[pg.K_UP]:
+            speed = self.speed
         elif keys[pg.K_DOWN]:
-            self.dir = Point(0, 1)
-            self.target_point = Point(0, 5)
+            speed = - self.speed
+        self.target_point = Point(int(speed * self.dir.x), int(speed * self.dir.y))
+            
+
+    def update(self, boundaries, keys):
+        self._change_dir(keys)
+        self._move(keys)
         delta_ray = Ray(self.pos, self.target_point)
         if_intersect = False
         for boundary in boundaries:

@@ -14,4 +14,5 @@ class Lightsouce_Settings:
         self.apex =20
         self.init_pos = Point(30, 30)
         self.init_dir = Point(0, -1)
-        self.delta_angle = 0.2
+        self.delta_angle = 0.2 
+        self.speed = 10
