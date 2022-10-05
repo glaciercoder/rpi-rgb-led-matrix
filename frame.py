@@ -16,7 +16,7 @@ class Frame:
 
     def recv_data(self):
         self.sock.bind(('127.0.0.1', 5005))
-        self.data, server_address= self.sock.recvfrom(2048)
+        self.data, server_address= self.sock.recvfrom(4096)
         data = self.data.decode().split('d')
         angles = []
         distances = []

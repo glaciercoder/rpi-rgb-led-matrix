@@ -7,9 +7,11 @@ import numpy as np
 class  Scene:
     def __init__(self, screen) -> None:
        self.screen = screen
-       self.h0 = 32000
-       self.rect_width = 10
+       self.h_gain = 32000
+       self.rect_width = 15
        self.background = './maps/background.png'
+       self.color_nearest = (30,144,255)
+       self.color_farthest = (25, 25, 112)
 
     # this function will be called just once
     def background_gen(self, top_color, bottom_color, steps, target_rect, mode='top'):
@@ -35,23 +37,29 @@ class  Scene:
         distances = [float(distance) for distance in distances]
         apex = max(angles)
         angles = [radians(angle - apex / 2) for angle in angles]
-        a = D / ((distances[0] + distances[-1]) * sin(radians(apex / 2)))
-        b = D * distances[0] / (distances[0] + distances[-1])
-        x = []
-        h = []
-        for distance, angle in zip(distances, angles):
-            e = a * distance * sin(angle) + b 
-            if e >= 0:
-                x.append(e)
-                h.append(self.h0 / distance)
+        x = [D * angle / radians(apex) + D / 2 for angle in angles]
+        h = [self.h_gain / distance for distance in distances]    
         return x, h
-        
+
+    def _get_color(self, Hs):
+        h_min = min(Hs)
+        h_max = max(Hs)
+        delta_c = []
+        colors = []
+        for i in range(0, 3):
+            delta_c.append((self.color_farthest[i] - self.color_nearest[i]) / (h_max - h_min))
+        for H in Hs:
+            c = [self.color_nearest[i] + (h_max - H) * delta_c[i] for i in range(0, 3)] 
+            colors.append(tuple(c))
+        return colors
+
     def scene_gen(self, angles, distances, D, window_height ):
         self.blit_background()
         xs, hs = self._get_rect(angles, distances, D)
         print(hs)
-        Xs = np.arange(0, D-self.rect_width, self.rect_width)
-        Hs = np.interp(Xs, xs, hs)
-        for X, H in zip(Xs, Hs):
+        # Xs = np.arange(0, D-self.rect_width, self.rect_width)
+        # Hs = np.interp(Xs, xs, hs)
+        colors = self._get_color(hs)
+        for X, H, c in zip(xs, hs, colors):
             rect = pg.Rect(X, (window_height - H) / 2, self.rect_width, H)
-            pg.draw.rect(self.screen,(30,144,255), rect)
+            pg.draw.rect(self.screen, c, rect)

@@ -11,6 +11,7 @@ class UI_Settings:
 
 class Lightsouce_Settings:
     def __init__(self) -> None:
-        self.apex =40
+        self.apex =20
         self.init_pos = Point(30, 30)
         self.init_dir = Point(0, -1)
+        self.delta_angle = 0.2

@@ -99,10 +99,20 @@ The communication works properly.
 
 
 
+# Day5
 
+**How to tackle with a pillar???**
 
+After implementing the rectangle generation and coloring, two problem emerges, one is distortion, which makes a wall seems curve, the other is the abrupt change in distance.
 
+It is common to have abrupt change in distance, since my algorithm uses linear interpolation, the abrupt change will lead to an unreal continuous change in 3D view.
 
+So how to tackle with this problem? If rays are dense enough, there is actually no need to interpolate. 
+
+However, if we don't use interpolation, due to our algorithm that transfroms $d\sin\theta$ to $x$, the blind area will not be displayed(since there is no ray at all!). To solve this problem, I try to directly map $\theta$ to $x$
+$$
+x =x(\theta), \theta \in [-\theta_0, \theta_0], x \in [0, D]
+$$
 
 
 

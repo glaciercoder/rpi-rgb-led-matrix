@@ -10,7 +10,6 @@ from geometry import Point, Rectangle
 from ray import Ray
 import math
 from frame import Frame
-
 class LightSource:
     """
         LightSource: generate rays and detect the collision
@@ -18,13 +17,13 @@ class LightSource:
                     dir is the direction of the light source
                     apex is the angle of apex angle centered at the dir, unit: degree
     """
-    def __init__(self, pos, dir, apex) -> None:
-        self.pos = pos
-        self.dir = dir
+    def __init__(self, settings)-> None:
+        self.pos = settings.init_pos
+        self.dir = settings.init_dir
         self.target_point = Point(0, 0)
-        self.apex = apex
+        self.apex = settings.apex
         self.rays = []
-        self.angles = np.arange(0, self.apex+1, 1)
+        self.angles = np.arange(0, self.apex+settings.delta_angle, settings.delta_angle)
         self.distances = []
         self.color = (0, 0, 255)
         self.radius = 5

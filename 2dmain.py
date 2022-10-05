@@ -11,14 +11,13 @@ pg.init()
 # import settings
 ui_settings = UI_Settings()
 ls_settings = Lightsouce_Settings()
-
 # Load Map
 map = BoundaryMaker('./maps/map1.svg')
 boundaries = map.boundaries_gen()
 
 # Load Widgets
 ticker = Ticker(ui_settings.ticker_time)
-light_source = LightSource(ls_settings.init_pos, ls_settings.init_dir, ls_settings.apex)
+light_source = LightSource(ls_settings)
 screen = pg.display.set_mode((ui_settings.width, ui_settings.height))
 pg.display.set_caption("2D View")
 while True:
